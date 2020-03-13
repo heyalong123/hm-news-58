@@ -1,13 +1,13 @@
 <template>
-  <div>我是根目录</div>
+  <div>
+    <!-- 指定路由得出口 -->
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {};
 </script>
 
 <style>
-
 </style>
