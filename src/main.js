@@ -18,8 +18,17 @@ Vue.component('hm-logo', HmLogo)
 // 全局button
 import HmButton from '../src/components/HmButton.vue'
 Vue.component('hm-button', HmButton)
-
+// 全部input
+import HmInput from '../src/components/HmInput.vue'
+Vue.component('hm-input', HmInput)
+// 引入axaios
+import axios from 'axios'
 Vue.config.productionTip = false
+// axios的优化
+// axios和vue没有关系，强行让axios和Vue有关系
+Vue.prototype.$axios = axios
+// 把axios绑定到了vue的原型上，所有的vue实例（组件）都可以通过 this.axios访问到axios
+axios.defaults.baseURL = 'http://localhost:3000'
 
 new Vue({
   router,

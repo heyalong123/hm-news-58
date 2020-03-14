@@ -5,12 +5,18 @@
     <!-- 字体图标 -->
     <hm-logo></hm-logo>
     <!--按钮 -->
-    <hm-button>登录</hm-button>
+    <hm-button @click="register">注册</hm-button>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    register() {
+      console.log("我要注册了");
+    }
+  }
+};
 </script>
 
 <style>

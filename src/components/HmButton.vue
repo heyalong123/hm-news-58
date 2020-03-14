@@ -1,11 +1,18 @@
 <template>
-  <div class="hm-button">
+  <div class="hm-button" @click="buttonfn">
     <slot></slot>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    buttonfn() {
+      // console.log("我要登录了");
+      this.$emit("click");
+    }
+  }
+};
 </script>
 
 <style lang="less" scoped>

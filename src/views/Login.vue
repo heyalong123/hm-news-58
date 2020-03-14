@@ -4,20 +4,58 @@
     <hm-header>登录</hm-header>
     <!-- 字体图标 -->
     <hm-logo></hm-logo>
-    <div class="username">
-      <input type="text" placeholder="请输入用户名" />
-    </div>
-    <div class="password">
-      <input type="password" placeholder="请输入密码" />
-    </div>
+    <!-- input框 -->
+    <hm-input
+      type="text"
+      placeholder="请输入用户名"
+      v-model="username"
+      :rule="/^1\d{4,10}$/"
+      message="用户名错误"
+    ></hm-input>
+    <hm-input
+      type="password"
+      placeholder="请输入密码"
+      v-model="password"
+      :rule="/\d{3,13}$/"
+      message="用户密码错误"
+    ></hm-input>
     <!--按钮 -->
-    <hm-button>登录</hm-button>
+    <hm-button @click="click">登录</hm-button>
   </div>
 </template>
 
 <script>
-export default {};
+// 导入
+// import axios from 'axios'
+export default {
+  methods: {
+    click() {
+      // console.log('我登录了')
+      this.$axios({
+        method: 'POST',
+        url: '/login',
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      }).then(res => {
+        // console.log(res.data)
+        if (res.data.statusCode === 200) {
+          // alert('登录成功')
+          this.$router.push('/user')
+        } else {
+          alert('登录失败')
+        }
+      })
+    }
+  },
+  data() {
+    return {
+      username: '',
+      password: ''
+    }
+  }
+}
 </script>
 
-<style>
-</style>
+<style></style>
