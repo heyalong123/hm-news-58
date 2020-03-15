@@ -11,7 +11,7 @@
 </template>
 
 <script>
-export default {};
+export default {}
 </script>
 
 <style lang="less" scoped>
@@ -29,6 +29,7 @@ export default {};
   .center {
     flex: 1;
     font-weight: 700;
+    font-size: 20px;
   }
 }
 </style>

@@ -23,6 +23,9 @@
     ></hm-input>
     <!--按钮 -->
     <hm-button @click="click">登录</hm-button>
+    <div class="go-register">
+      没有账号？去<router-link class="link" to="/register">注册</router-link>
+    </div>
   </div>
 </template>
 
@@ -32,14 +35,14 @@
 export default {
   methods: {
     click() {
-      const a = this.$refs.username.validate(this.username)
-      const b = this.$refs.password.validate(this.password)
-      // console.log(a, b)
-      if (!a || b) {
+      const result = this.$refs.username.validate(this.username)
+      const result1 = this.$refs.password.validate(this.password)
+      console.log(result, result1)
+      if (!result || !result1) {
         return
       }
 
-      // console.log('我登录了')
+      console.log('我登录了')
       this.$axios({
         method: 'POST',
         url: '/login',
@@ -50,7 +53,7 @@ export default {
       }).then(res => {
         // console.log(res.data)
         if (res.data.statusCode === 200) {
-          // alert('登录成功')
+          alert('登录成功')
           this.$toast.success('登录成功')
           this.$router.push('/user')
         } else {
@@ -65,8 +68,22 @@ export default {
       username: '',
       password: ''
     }
+  },
+  created() {
+    console.log(this.$route)
+    this.username = this.$route.params.username
+    this.password = this.$route.params.password
   }
 }
 </script>
 
-<style></style>
+<style lang="less" scoped>
+.go-register {
+  font-size: 18px;
+  text-align: right;
+  padding: 0 20px;
+  .link {
+    color: #666;
+  }
+}
+</style>
