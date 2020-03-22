@@ -41,7 +41,7 @@
 <script>
 export default {
   methods: {
-    register() {
+    async register() {
       // 进行表单验证
       const result1 = this.$refs.username.validate(this.username)
       const result2 = this.$refs.nickname.validate(this.nickname)
@@ -51,7 +51,7 @@ export default {
       }
 
       // console.log('我要注册了')
-      this.$axios({
+      const res = await this.$axios({
         method: 'post',
         url: '/register',
         data: {
@@ -59,22 +59,21 @@ export default {
           password: this.password,
           nickname: this.nickname
         }
-      }).then(res => {
-        console.log(res.data)
-        // 判断响应状态
-        if (res.data.statusCode === 200) {
-          this.$toast.success(res.data.message)
-          // 跳转到登录页面
-          // 发送请求登录就行，登录成功直接跳个人中心就行
-          // $router.push()进行路由跳转，还可以传递额外的参数
-          this.$router.push({
-            name: 'login',
-            params: { username: this.username, password: this.password }
-          })
-        } else {
-          this.$toast.fail(res.data.message)
-        }
       })
+      console.log(res.data)
+      // 判断响应状态
+      if (res.data.statusCode === 200) {
+        this.$toast.success(res.data.message)
+        // 跳转到登录页面
+        // 发送请求登录就行，登录成功直接跳个人中心就行
+        // $router.push()进行路由跳转，还可以传递额外的参数
+        this.$router.push({
+          name: 'login',
+          params: { username: this.username, password: this.password }
+        })
+      } else {
+        this.$toast.fail(res.data.message)
+      }
     }
   },
   data() {

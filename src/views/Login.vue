@@ -24,53 +24,56 @@
     <!--按钮 -->
     <hm-button @click="click">登录</hm-button>
     <div class="go-register">
-      没有账号？去<router-link class="link" to="/register">注册</router-link>
+      没有账号？去
+      <router-link class="link" to="/register">注册</router-link>
     </div>
   </div>
 </template>
 
 <script>
-// 导入
-// import axios from 'axios'
 export default {
-  methods: {
-    click() {
-      const result = this.$refs.username.validate(this.username)
-      const result1 = this.$refs.password.validate(this.password)
-      console.log(result, result1)
-      if (!result || !result1) {
-        return
-      }
-
-      console.log('我登录了')
-      this.$axios({
-        method: 'POST',
-        url: '/login',
-        data: {
-          username: this.username,
-          password: this.password
-        }
-      }).then(res => {
-        // console.log(res.data)
-        if (res.data.statusCode === 200) {
-          alert('登录成功')
-          this.$toast.success('登录成功')
-          this.$router.push('/user')
-        } else {
-          // alert('登录失败')
-          this.$toast.fail('登录失败')
-        }
-      })
-    }
-  },
   data() {
     return {
       username: '',
       password: ''
     }
   },
+  methods: {
+    async click() {
+      const result = this.$refs.username.validate(this.username)
+      const result1 = this.$refs.password.validate(this.password)
+      // console.log(result, result1)
+      if (!result || !result1) {
+        return
+      }
+
+      // console.log('我登录了')
+      const res = await this.$axios({
+        method: 'POST',
+        url: '/login',
+        data: {
+          username: this.username,
+          password: this.password
+        }
+      })
+      // console.log(res)
+      const { statusCode, data, token } = res.data
+      if (res.data.statusCode === 200) {
+        // alert('登录成功')
+        this.$toast.success('登录成功')
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user_id', data.user.id)
+
+        this.$router.push('/user')
+      } else {
+        // alert('登录失败')
+        this.$toast.fail('登录失败')
+      }
+    }
+  },
+
   created() {
-    console.log(this.$route)
+    // console.log(this.$route)
     this.username = this.$route.params.username
     this.password = this.$route.params.password
   }
